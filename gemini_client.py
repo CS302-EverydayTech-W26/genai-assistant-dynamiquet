@@ -14,12 +14,13 @@ class GeminiClient:
             self.client = genai.Client(api_key=gemini_api_key)
             self.chat_history = []
 
+        self.chat = self.client.chats.create(model='gemini-3-flash-preview')
     def generate_response(self, user_input):
-        if self.chat_history == None:  
+        if self.chat_history is None:  
             return "AI Assistant is not configured correctly"
         
         else:
-            # TO DO: Modify system instruction based on the purpose of your GenAI Assistant
+            # Modify system instruction based on the purpose of your GenAI Assistant
             system_instruction = "You are a Carleton Carleton college student. You are in the 7th week of the term, which means you're super tired and so out of everything. Always answer with extreme laziness. But give the right answer still, of course."
             
             # Add the prompt to the chat history
@@ -28,15 +29,19 @@ class GeminiClient:
                   parts=[types.Part.from_text(text=user_input)]
                 )]
 
-            # TO DO: Use the client's chat history & system instruction to prompt Gemini
-            response = self.client.models.generate_content(
-                        model='gemini-3-flash-preview',
-                        contents='hey who are you?'
-                        config=types.GenerateContentConfig(
-                            system_instruction=system_instruction,
-                        )
-            )
+            # Use the client's chat history & system instruction to prompt Gemini
 
-            # TO DO: Add the response text from Gemini to the client's chat history
+            response = self.chat.send_message(message = user_input,
+                                         config=types.GenerateContentConfig(
+                                             system_instruction=system_instruction
+                                    ))
 
-            # TO DO: Return the response text from Gemini
+            # Add the response text from Gemini to the client's chat history
+            self.chat_history += [types.Content(
+                  role='assistant',
+                  parts=[types.Part.from_text(text=response.text)] # type: ignore
+                )]
+            
+            # Return the response text from Gemini
+
+            return response.text
