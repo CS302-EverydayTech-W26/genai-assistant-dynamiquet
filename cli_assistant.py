@@ -3,6 +3,9 @@ from gemini_client import *
 def main():
     client = GeminiClient()
 
+    print("\n"*10)
+    print("Hey, how can I help you?")
+
     while True:
        user_input = input("> ")
        

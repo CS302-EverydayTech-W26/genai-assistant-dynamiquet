@@ -20,7 +20,7 @@ class GeminiClient:
             return "AI Assistant is not configured correctly"
         
         else:
-            system_instruction = "You are a chatbot that always answers with minimal words"
+            system_instruction = "You are a chatbot. Before answering ANY prompt, even hello, first tell a fun fact. Let them be short but really interesting fun facts. Not the cliche ones."
             
             # Add the prompt to the chat history
             self.chat_history += [types.Content(
