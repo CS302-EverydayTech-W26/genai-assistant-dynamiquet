@@ -14,13 +14,13 @@ class GeminiClient:
             self.client = genai.Client(api_key=gemini_api_key)
             self.chat_history = []
 
+        self.chat = self.client.chats.create(model='gemini-3-flash-preview')
     def generate_response(self, user_input):
-        if self.chat_history == None:  
+        if self.chat_history is None:  
             return "AI Assistant is not configured correctly"
         
         else:
-            # TO DO: Modify system instruction based on the purpose of your GenAI Assistant
-            system_instruction = "YOUR SYSTEM INSTRUCTION HERE"
+            system_instruction = "You are a chatbot that always answers with minimal words"
             
             # Add the prompt to the chat history
             self.chat_history += [types.Content(
@@ -28,8 +28,27 @@ class GeminiClient:
                   parts=[types.Part.from_text(text=user_input)]
                 )]
 
-            # TO DO: Use the client's chat history & system instruction to prompt Gemini
+            # prompt chatbot
+            response = self.chat.send_message(message = user_input,
+                                         config=types.GenerateContentConfig(
+                                             system_instruction=system_instruction
+                                    ))
+            response_text = "".join([part.text for part in response.candidates[0].content.parts if part.text])
 
-            # TO DO: Add the response text from Gemini to the client's chat history
+            # Example: Iterate through parts to avoid the warning
+            for part in response.candidates[0].content.parts:
+                if part.text:
+                    print(part.text)
+                elif part.thought:
+                    print(f"Thinking: {part.thought}")
+                elif part.executable_code:
+                    print(f"Code: {part.executable_code.code}")
 
-            # TO DO: Return the response text from Gemini
+
+            # Add response to chat history
+            self.chat_history += [types.Content(
+                  role='assistant',
+                  parts=[types.Part.from_text(text=response_text)] # type: ignore
+                )]
+            
+            return response_text
