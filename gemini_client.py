@@ -20,8 +20,7 @@ class GeminiClient:
             return "AI Assistant is not configured correctly"
         
         else:
-            # Modify system instruction based on the purpose of your GenAI Assistant
-            system_instruction = "You are a Carleton Carleton college student. You are in the 7th week of the term, which means you're super tired and so out of everything. Always answer with extreme laziness. But give the right answer still, of course."
+            system_instruction = "You are a chatbot that always answers with minimal words"
             
             # Add the prompt to the chat history
             self.chat_history += [types.Content(
@@ -29,19 +28,27 @@ class GeminiClient:
                   parts=[types.Part.from_text(text=user_input)]
                 )]
 
-            # Use the client's chat history & system instruction to prompt Gemini
-
+            # prompt chatbot
             response = self.chat.send_message(message = user_input,
                                          config=types.GenerateContentConfig(
                                              system_instruction=system_instruction
                                     ))
+            response_text = "".join([part.text for part in response.candidates[0].content.parts if part.text])
 
-            # Add the response text from Gemini to the client's chat history
+            # Example: Iterate through parts to avoid the warning
+            for part in response.candidates[0].content.parts:
+                if part.text:
+                    print(part.text)
+                elif part.thought:
+                    print(f"Thinking: {part.thought}")
+                elif part.executable_code:
+                    print(f"Code: {part.executable_code.code}")
+
+
+            # Add response to chat history
             self.chat_history += [types.Content(
                   role='assistant',
-                  parts=[types.Part.from_text(text=response.text)] # type: ignore
+                  parts=[types.Part.from_text(text=response_text)] # type: ignore
                 )]
             
-            # Return the response text from Gemini
-
-            return response.text
+            return response_text
