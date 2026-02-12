@@ -35,16 +35,6 @@ class GeminiClient:
                                     ))
             response_text = "".join([part.text for part in response.candidates[0].content.parts if part.text])
 
-            # Example: Iterate through parts to avoid the warning
-            for part in response.candidates[0].content.parts:
-                if part.text:
-                    print(part.text)
-                elif part.thought:
-                    print(f"Thinking: {part.thought}")
-                elif part.executable_code:
-                    print(f"Code: {part.executable_code.code}")
-
-
             # Add response to chat history
             self.chat_history += [types.Content(
                   role='assistant',
