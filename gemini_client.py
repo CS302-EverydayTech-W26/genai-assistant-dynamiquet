@@ -14,13 +14,14 @@ class GeminiClient:
             self.client = genai.Client(api_key=gemini_api_key)
             self.chat_history = []
 
-        self.chat = self.client.chats.create(model='gemini-3-flash-preview')
+        # self.chat = self.client.chats.create(model='gemini-3-flash-preview')
+        self.chat = self.client.chats.create(model='gemini-2.5-flash')
     def generate_response(self, user_input):
         if self.chat_history is None:  
             return "AI Assistant is not configured correctly"
         
         else:
-            system_instruction = "You are a chatbot. Before answering ANY prompt, even hello, first tell a fun fact. Let them be short but really interesting fun facts. Not the cliche ones."
+            system_instruction = "You are a chatbot."
             
             # Add the prompt to the chat history
             self.chat_history += [types.Content(
@@ -33,7 +34,7 @@ class GeminiClient:
                                          config=types.GenerateContentConfig(
                                              system_instruction=system_instruction
                                     ))
-            response_text = "".join([part.text for part in response.candidates[0].content.parts if part.text])
+            response_text = "".join([part.text for part in response.candidates[0].content.parts if part.text]) # type: ignore
 
             # Add response to chat history
             self.chat_history += [types.Content(
