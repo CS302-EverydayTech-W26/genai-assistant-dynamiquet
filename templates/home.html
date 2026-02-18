@@ -14,14 +14,14 @@
         src="{{url_for('static', filename='images/dai_logo.png')}}"
         alt="dai logo"
       />
-      <a href="">Other Projects</a>
+      <a href="https://dynamiquet.github.io/projects.html" target="_blank">Other Projects</a>
     </nav>
 
     <div class="main-section">
       <h1>Chat with me in the below textbox!</h1>
       <form method="POST" class="main-form">
         <label for="dai-chatbox">Chat box</label>
-        <input type="text" id="dai-chatbox" name="chat_input" />
+        <input type="text" placeholder="Hi, how can I help you?" id="dai-chatbox" name="chat_input" />
 
         {% if chat_output %}
           <div class="output">
