@@ -14,8 +14,8 @@ class GeminiClient:
             self.client = genai.Client(api_key=gemini_api_key)
             self.chat_history = []
 
-        # self.chat = self.client.chats.create(model='gemini-3-flash-preview')
-        self.chat = self.client.chats.create(model='gemini-2.5-flash')
+        self.chat = self.client.chats.create(model='gemini-3-flash-preview')
+        # self.chat = self.client.chats.create(model='gemini-2.5-flash')
     def generate_response(self, user_input):
         if self.chat_history is None:  
             return "AI Assistant is not configured correctly"

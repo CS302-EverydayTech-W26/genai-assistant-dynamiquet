@@ -2,10 +2,27 @@ nav {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px;
 }
 
 nav img {
     width: 80px;
+}
+
+nav .connect-out {
+    background-color: green;
+    text-decoration: none;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: white;
+    transition: background-color 0.2s;
+}
+
+nav .connect-out:hover {
+    background-color: darkgreen;
 }
 
 .main-section {
@@ -23,4 +40,16 @@ nav img {
 
 h1 {
     color:green;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
 }
