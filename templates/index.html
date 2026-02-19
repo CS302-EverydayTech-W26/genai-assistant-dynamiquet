@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <title>DyAI</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/styles.css')}}"
+    />
+    <link rel="stylesheet" href="../Static/css/styles.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="" class="logo">
+        <img
+          src="{{url_for('static', filename='images/dai_logo.png')}}"
+          alt="dai logo"
+        />
+      </a>
+      <a href="http://dynamiquet.github.io/projects.html" target="_blank" class="connect-out">Other Projects</a>
+    </nav>
+
+    <div class="main-section">
+      <h1>Chat with DAI chatbot below. Have Fun!</h1>
+
+      <div class="chat-window">
+        {% for message in conversation %}
+        <div class="message-{{ message.role }}">
+          {{ message.role }} : {{ message.parts[0].text }}
+        </div>
+        {% endfor %}
+      </div>
+
+      <form method="POST" class="main-form">
+        <label for="dai-chatbox" class="visually-hidden">Chat box</label>
+        <input type="text" id="dai-chatbox" name="chat_input" placeholder="Hi! How can I help you?"/>
+      </form>
+    </div>
+  </body>
+</html>
